@@ -683,7 +683,7 @@
       };
       
       // Send data to API
-      fetch('http://localhost:5000/api/register', {
+      fetch('https://hospitalbedmanager.onrender.com/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -731,7 +731,7 @@
       refreshDashboardBtn.disabled = true;
       refreshDashboardBtn.textContent = 'Loading...';
       
-      fetch('http://localhost:5000/api/dashboard')
+      fetch('https://hospitalbedmanager.onrender.com/api/dashboard')
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -837,7 +837,7 @@
         return;
       }
       
-      fetch('http://localhost:5000/api/discharge', {
+      fetch('http://https://hospitalbedmanager.onrender.com/api/discharge', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
