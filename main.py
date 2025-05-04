@@ -165,51 +165,7 @@ def discharge_patient():
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
 
-# Add these stored procedures to your Supabase database
-"""
--- Function to get bed statistics
-CREATE OR REPLACE FUNCTION get_bed_stats()
-RETURNS TABLE (
-    total_beds INTEGER,
-    occupied_beds INTEGER,
-    vacant_beds INTEGER,
-    maintenance_beds INTEGER
-) LANGUAGE plpgsql AS $$
-BEGIN
-    RETURN QUERY
-    SELECT
-        COUNT(*)::INTEGER AS total_beds,
-        COUNT(*) FILTER (WHERE status = 'occupied')::INTEGER AS occupied_beds,
-        COUNT(*) FILTER (WHERE status = 'vacant')::INTEGER AS vacant_beds,
-        COUNT(*) FILTER (WHERE status = 'maintenance')::INTEGER AS maintenance_beds
-    FROM beds;
-END;
-$$;
 
--- Function to get ward occupancy
-CREATE OR REPLACE FUNCTION get_ward_occupancy()
-RETURNS TABLE (
-    ward_name VARCHAR,
-    total INTEGER,
-    occupied INTEGER,
-    vacant INTEGER,
-    occupancy_rate NUMERIC
-) LANGUAGE plpgsql AS $$
-BEGIN
-    RETURN QUERY
-    SELECT
-        w.ward_name,
-        COUNT(b.bed_id)::INTEGER AS total,
-        COUNT(b.bed_id) FILTER (WHERE b.status = 'occupied')::INTEGER AS occupied,
-        COUNT(b.bed_id) FILTER (WHERE b.status = 'vacant')::INTEGER AS vacant,
-        ROUND((COUNT(b.bed_id) FILTER (WHERE b.status = 'occupied')::NUMERIC / 
-              NULLIF(COUNT(b.bed_id), 0)::NUMERIC * 100), 2) AS occupancy_rate
-    FROM wards w
-    JOIN beds b ON w.ward_id = b.ward_id
-    GROUP BY w.ward_name;
-END;
-$$;
-"""
 
 if __name__ == '__main__':
     app.run(debug=True)
