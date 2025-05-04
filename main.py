@@ -18,6 +18,10 @@ supabase_url = os.environ.get("SUPABASE_URL")
 supabase_key = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(supabase_url, supabase_key)
 
+@app.route("/")
+def home():
+    return send_file("index.html")
+
 @app.route('/api/register', methods=['POST'])
 def register_patient():
     """Register a new patient and allocate a bed"""
