@@ -1,280 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Keep your existing head content -->
   <title>Smart Bed Allocation System - Patient Entry</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    body {
-      background: linear-gradient(135deg, #43cea2, #185a9d);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 1000px;
-      background-color: #fff;
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      overflow: hidden;
-    }
-    
-    header {
-      background: linear-gradient(135deg, #2193b0, #6dd5ed);
-      color: white;
-      padding: 25px 40px;
-      text-align: center;
-    }
-    
-    header h1 {
-      font-size: 28px;
-      margin-bottom: 5px;
-    }
-    
-    header p {
-      font-size: 16px;
-      opacity: 0.9;
-    }
-    
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 15px;
-    }
-    
-    .logo i {
-      margin-right: 10px;
-      font-size: 28px;
-    }
-    
-    .form-container {
-      padding: 30px 40px;
-    }
-    
-    .form-title {
-      color: #333;
-      margin-bottom: 25px;
-      font-size: 20px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    
-    .form-row {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .form-group {
-      flex: 1;
-      min-width: 250px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      color: #555;
-    }
-    
-    input, textarea, select {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-    
-    input:focus, textarea:focus, select:focus {
-      border-color: #185a9d;
-      box-shadow: 0 0 5px rgba(24, 90, 157, 0.3);
-      outline: none;
-    }
-    
-    textarea {
-      height: 100px;
-      resize: vertical;
-    }
-    
-    .radio-group {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .radio-option {
-      display: flex;
-      align-items: center;
-    }
-    
-    .radio-option input {
-      width: auto;
-      margin-right: 8px;
-    }
-    
-    .submit-btn {
-      background: linear-gradient(135deg, #43cea2, #185a9d);
-      color: white;
-      border: none;
-      padding: 14px 25px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: block;
-      width: 100%;
-      margin-top: 30px;
-    }
-    
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    .required-field::after {
-      content: "*";
-      color: #e74c3c;
-      margin-left: 3px;
-    }
-    
-    .form-footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #777;
-      font-size: 14px;
-    }
-    
-    /* Loading animation */
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      margin-right: 10px;
-      display: none;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    /* Responsive design */
-    @media (max-width: 768px) {
-      .container {
-        width: 95%;
-      }
-      
-      .form-container {
-        padding: 20px;
-      }
-      
-      .form-row {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .form-group {
-        min-width: 100%;
-      }
-      
-      header {
-        padding: 20px;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- CSS remains the same -->
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="logo">
-        <i class="fas fa-hospital"></i>
-        Smart Bed Allocation System
-      </div>
-      <h1>Patient Registration</h1>
-      <p>Enter patient details to allocate appropriate bed and ward</p>
-    </header>
+    <!-- Keep your existing header and form structure -->
     
     <div class="form-container">
       <h2 class="form-title">Patient Information</h2>
       
       <form id="patient-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="patient-id" class="required-field">Patient ID</label>
-            <input type="text" id="patient-id" placeholder="Enter patient ID" required>
-          </div>
-          <div class="form-group">
-            <label for="patient-name" class="required-field">Patient Name</label>
-            <input type="text" id="patient-name" placeholder="Enter full name" required>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="patient-phone" class="required-field">Phone Number</label>
-            <input type="tel" id="patient-phone" placeholder="Enter phone number" required>
-          </div>
-          <div class="form-group">
-            <label for="patient-age" class="required-field">Age</label>
-            <input type="number" id="patient-age" placeholder="Enter age" required>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="patient-address" class="required-field">Address</label>
-            <textarea id="patient-address" placeholder="Enter complete address" required></textarea>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label for="patient-condition" class="required-field">Patient Condition</label>
-            <textarea id="patient-condition" placeholder="Describe patient's current medical condition" required></textarea>
-          </div>
-        </div>
-        
-        <div class="form-row">
-          <div class="form-group">
-            <label class="required-field">Ward Type</label>
-            <div class="radio-group">
-              <div class="radio-option">
-                <input type="radio" id="general" name="ward" value="general" required>
-                <label for="general">General</label>
-              </div>
-              <div class="radio-option">
-                <input type="radio" id="maternity" name="ward" value="maternity">
-                <label for="maternity">Maternity</label>
-              </div>
-              <div class="radio-option">
-                <input type="radio" id="emergency" name="ward" value="emergency">
-                <label for="emergency">Emergency</label>
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- Keep all your existing form fields -->
         
         <button type="submit" id="submit-btn" class="submit-btn">
           <span class="loading" id="loading"></span>
@@ -323,19 +62,49 @@
       button.textContent = 'Processing...';
       button.disabled = true;
       
-      // Simulate form submission (in a real app, this would be an API call)
-      setTimeout(function() {
+      // Create patient data object
+      const patientData = {
+        patientId: patientId,
+        patientName: patientName,
+        patientPhone: patientPhone,
+        patientAge: patientAge,
+        patientAddress: patientAddress,
+        patientCondition: patientCondition,
+        ward: selectedWard
+      };
+      
+      // Send data to API
+      fetch('http://localhost:5000/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(patientData)
+      })
+      .then(response => response.json())
+      .then(data => {
         loading.style.display = 'none';
         button.disabled = false;
         button.textContent = 'Allocate Bed';
         
-        // Show success message
-        alert(`Patient ${patientName} has been registered successfully and assigned to ${selectedWard.toUpperCase()} ward.`);
-        
-        // Reset form
-        document.getElementById('patient-form').reset();
-      }, 1500);
+        if (data.success) {
+          // Show success message
+          alert(data.message);
+          // Reset form
+          document.getElementById('patient-form').reset();
+        } else {
+          // Show error message
+          alert('Error: ' + data.message);
+        }
+      })
+      .catch(error => {
+        loading.style.display = 'none';
+        button.disabled = false;
+        button.textContent = 'Allocate Bed';
+        alert('Error: ' + error.message);
+        console.error('Error:', error);
+      });
     });
   </script>
 </body>
-  </html>
+</html>
