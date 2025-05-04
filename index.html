@@ -1,110 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Keep your existing head content -->
-  <title>Smart Bed Allocation System - Patient Entry</title>
-  <!-- CSS remains the same -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management</title>
 </head>
 <body>
-  <div class="container">
-    <!-- Keep your existing header and form structure -->
-    
-    <div class="form-container">
-      <h2 class="form-title">Patient Information</h2>
-      
-      <form id="patient-form">
-        <!-- Keep all your existing form fields -->
-        
-        <button type="submit" id="submit-btn" class="submit-btn">
-          <span class="loading" id="loading"></span>
-          Allocate Bed
-        </button>
-      </form>
-      
-      <div class="form-footer">
-        <p>Fields marked with * are mandatory</p>
-      </div>
-    </div>
-  </div>
+    <h1>Hospital Management System</h1>
 
-  <script>
-    document.getElementById('patient-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const loading = document.getElementById('loading');
-      const button = document.getElementById('submit-btn');
-      
-      // Get form values
-      const patientId = document.getElementById('patient-id').value;
-      const patientName = document.getElementById('patient-name').value;
-      const patientPhone = document.getElementById('patient-phone').value;
-      const patientAge = document.getElementById('patient-age').value;
-      const patientAddress = document.getElementById('patient-address').value;
-      const patientCondition = document.getElementById('patient-condition').value;
-      const wardOptions = document.getElementsByName('ward');
-      
-      let selectedWard = '';
-      for (let i = 0; i < wardOptions.length; i++) {
-        if (wardOptions[i].checked) {
-          selectedWard = wardOptions[i].value;
-          break;
-        }
-      }
-      
-      // Validate form (basic validation)
-      if (!patientId || !patientName || !patientPhone || !patientAge || !patientAddress || !patientCondition || !selectedWard) {
-        alert('Please fill in all required fields');
-        return;
-      }
-      
-      // Show loading animation
-      loading.style.display = 'inline-block';
-      button.textContent = 'Processing...';
-      button.disabled = true;
-      
-      // Create patient data object
-      const patientData = {
-        patientId: patientId,
-        patientName: patientName,
-        patientPhone: patientPhone,
-        patientAge: patientAge,
-        patientAddress: patientAddress,
-        patientCondition: patientCondition,
-        ward: selectedWard
-      };
-      
-      // Send data to API
-      fetch('http://localhost:5000/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(patientData)
-      })
-      .then(response => response.json())
-      .then(data => {
-        loading.style.display = 'none';
-        button.disabled = false;
-        button.textContent = 'Allocate Bed';
+    <!-- Register Patient Form -->
+    <h3>Register New Patient</h3>
+    <form id="registerForm">
+        <input type="text" id="patientId" placeholder="Patient ID" required><br>
+        <input type="text" id="patientName" placeholder="Patient Name" required><br>
+        <input type="text" id="patientPhone" placeholder="Patient Phone" required><br>
+        <input type="number" id="patientAge" placeholder="Patient Age" required><br>
+        <input type="text" id="patientAddress" placeholder="Patient Address" required><br>
+        <input type="text" id="patientCondition" placeholder="Patient Condition" required><br>
+        <select id="ward" required>
+            <option value="General">General</option>
+            <option value="ICU">ICU</option>
+            <option value="Emergency">Emergency</option>
+        </select><br>
+        <button type="submit">Register Patient</button>
+    </form>
+
+    <!-- Discharge Patient Form -->
+    <h3>Discharge Patient</h3>
+    <form id="dischargeForm">
+        <input type="number" id="admissionId" placeholder="Admission ID" required><br>
+        <button type="submit">Discharge Patient</button>
+    </form>
+
+    <!-- Dashboard Data -->
+    <h3>Dashboard</h3>
+    <div id="dashboard">
+        <h4>Bed Stats</h4>
+        <ul id="bedStats"></ul>
+
+        <h4>Recent Admissions</h4>
+        <ul id="recentAdmissions"></ul>
+
+        <h4>Ward Occupancy</h4>
+        <ul id="wardOccupancy"></ul>
+    </div>
+
+    <script>
+        // Register Patient
+        const registerForm = document.getElementById('registerForm');
         
-        if (data.success) {
-          // Show success message
-          alert(data.message);
-          // Reset form
-          document.getElementById('patient-form').reset();
-        } else {
-          // Show error message
-          alert('Error: ' + data.message);
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const patientData = {
+                patientId: document.getElementById('patientId').value,
+                patientName: document.getElementById('patientName').value,
+                patientPhone: document.getElementById('patientPhone').value,
+                patientAge: document.getElementById('patientAge').value,
+                patientAddress: document.getElementById('patientAddress').value,
+                patientCondition: document.getElementById('patientCondition').value,
+                ward: document.getElementById('ward').value
+            };
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(patientData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert(`Patient registered successfully! Bed allocated: ${data.bed_number}`);
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            } catch (err) {
+                alert('An error occurred while registering the patient.');
+                console.error(err);
+            }
+        });
+
+        // Discharge Patient
+        const dischargeForm = document.getElementById('dischargeForm');
+        
+        dischargeForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const dischargeData = {
+                admissionId: document.getElementById('admissionId').value
+            };
+
+            try {
+                const response = await fetch('/api/discharge', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dischargeData)
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Patient discharged successfully');
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            } catch (err) {
+                alert('An error occurred while discharging the patient.');
+                console.error(err);
+            }
+        });
+
+        // Fetch Dashboard Data
+        async function fetchDashboardData() {
+            try {
+                const response = await fetch('/api/dashboard');
+                const data = await response.json();
+
+                if (data.success) {
+                    // Display Bed Stats
+                    const bedStatsList = document.getElementById('bedStats');
+                    bedStatsList.innerHTML = '';
+                    data.bed_stats.forEach(stat => {
+                        const li = document.createElement('li');
+                        li.textContent = `Ward: ${stat.ward_name}, Available Beds: ${stat.available_beds}`;
+                        bedStatsList.appendChild(li);
+                    });
+
+                    // Display Recent Admissions
+                    const recentAdmissionsList = document.getElementById('recentAdmissions');
+                    recentAdmissionsList.innerHTML = '';
+                    data.recent_admissions.forEach(admission => {
+                        const li = document.createElement('li');
+                        li.textContent = `${admission.patients.name} admitted to Bed ${admission.beds.bed_number} in ${admission.beds.wards.ward_name}`;
+                        recentAdmissionsList.appendChild(li);
+                    });
+
+                    // Display Ward Occupancy
+                    const wardOccupancyList = document.getElementById('wardOccupancy');
+                    wardOccupancyList.innerHTML = '';
+                    data.ward_occupancy.forEach(occupancy => {
+                        const li = document.createElement('li');
+                        li.textContent = `Ward: ${occupancy.ward_name}, Occupied: ${occupancy.occupied} / Total: ${occupancy.total}`;
+                        wardOccupancyList.appendChild(li);
+                    });
+                } else {
+                    alert('Failed to fetch dashboard data');
+                }
+            } catch (err) {
+                alert('An error occurred while fetching dashboard data.');
+                console.error(err);
+            }
         }
-      })
-      .catch(error => {
-        loading.style.display = 'none';
-        button.disabled = false;
-        button.textContent = 'Allocate Bed';
-        alert('Error: ' + error.message);
-        console.error('Error:', error);
-      });
-    });
-  </script>
+
+        // Fetch dashboard data when the page loads
+        fetchDashboardData();
+    </script>
 </body>
 </html>
